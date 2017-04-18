@@ -86,6 +86,7 @@ describe('Node Server Request Listener Function', function() {
     handler.requestHandler(req, res);
 
     expect(res._responseCode).to.equal(201);
+    console.log ('Expected Response Code: ', res._responseCode);
 
       // Now if we request the log for that room the message we posted should be there:
     req = new stubs.request('/classes/messages', 'GET');
@@ -94,6 +95,7 @@ describe('Node Server Request Listener Function', function() {
     handler.requestHandler(req, res);
 
     expect(res._responseCode).to.equal(200);
+    console.log ('Expected Response Code: ', res._responseCode);
     var messages = JSON.parse(res._data).results;
     expect(messages.length).to.be.above(0);
     expect(messages[0].username).to.equal('Jono');

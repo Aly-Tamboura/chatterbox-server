@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- dependencies -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script type='text/javascript' src="../node_modules/xss/dist/xss.js"></script>
+    <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+      // YOU DO NOT NEED TO EDIT THIS CODE
+      if (!/(&|\?)username=/.test(window.location.search)) {
+        var newSearch = window.location.search;
+
+        if (newSearch !== '' & newSearch !== '?') {
+          newSearch += '&';
+        }
+        newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
+        window.location.search = newSearch;
+      }
+    </script>
+    <!-- your scripts -->
+<!--     <script src="env/config.js"></script> -->
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <h1>Blabberbox</h1>
+      <label>Pick a Room</label>
+      <select id='chatRooms'>
+        <option value="Lobby" selected="selected">Lobby</option>
+      </select>
+      <!-- Your HTML goes here! -->
+      <form class="navbar-form navbar-left" id="send">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Add Message" id="message">
+          <input type="text" class="form-control" placeholder="Add Room" id="room">
+        </div>
+        <button id='submit'class="btn btn-info submit">Submit</button>
+      </form>
+    </div>
+    <div id="chaters"></div>
+  </body>
+</html>

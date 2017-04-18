@@ -89,34 +89,36 @@ var requestHandler = function(request, response) {
       });
 
       request.on('end', function() {
-        body = Buffer.concat(body).toString();
+        // body = Buffer.concat(body).toString();
           // at this point, `body` has the entire request body stored in it as a string
          console.log('post/messages body', body);
-         messages.results.push(body)
+         messages.results.push(JSON.parse(body.join('')));
        
       });
     
-      response.end();
+      response.end(JSON.stringify({results: messages}));
 
-    } else if (request.method === 'POST' && request.url === '/classes/room') {
+    } 
+    // else if (request.method === 'POST' && request.url === '/classes/room') {
 
-      var statusCode = 201;
-      response.writeHead(statusCode, headers);
+    //   var statusCode = 201;
+    //   response.writeHead(statusCode, headers);
 
-      var body = [];
+    //   var body = [];
 
-      request.on('data', function(chunk) {
-        body.push(chunk);
-      })
+    //   request.on('data', function(chunk) {
+    //     body.push(chunk);
+    //   })
 
-      request.on('end', function() {
-        body = Buffer.concat(body).toString();
-        console.log('post/classes body', body);
-        messages.results.push(body)
-      });
+    //   request.on('end', function() {
+    //     body = Buffer.concat(body).toString();
+    //     console.log('post/classes body', body);
+    //     messages.results.push(JSON.parse(body));
+    //   });
 
-      response.end();
-    } else if (request.method === 'OPTIONS') {
+    //   response.end(JSON.stringify({results: messages}));
+    // } 
+    else if (request.method === 'OPTIONS') {
 
       var statusCode = 200;
       response.writeHead(statusCode, headers);

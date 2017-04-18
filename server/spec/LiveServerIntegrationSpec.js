@@ -55,6 +55,7 @@ describe('server', function() {
         message: 'Do my bidding!'}
     };
 
+
     request(requestParams, function(error, response, body) {
       // Now if we request the log, that message we posted should be there:
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {

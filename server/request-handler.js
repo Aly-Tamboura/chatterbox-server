@@ -12,7 +12,7 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var messages = {
-   results: [],
+  results: [],
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -24,13 +24,14 @@ var messages = {
 //
 // Another way to get around this restriction is to serve you chat
 // client from this domain by setting up static file serving.
-var headers = defaultCorsHeaders;
 var defaultCorsHeaders = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'access-control-allow-headers': 'content-type, accept',
   'access-control-max-age': 10 // Seconds.
 };
+
+var headers = defaultCorsHeaders;
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -78,56 +79,33 @@ var requestHandler = function(request, response) {
     response.end(JSON.stringify(messages));
   } else if (request.method === 'POST' && request.url === '/classes/messages') {
       
-      var headers = defaultCorsHeaders;
-      var statusCode = 201;
-      response.writeHead(statusCode, headers);
+    var headers = defaultCorsHeaders;
+    var statusCode = 201;
+    response.writeHead(statusCode, headers);
 
-      var body = [];
+    var body = [];
 
-      request.on('data', function(chunk) {
-        body.push(chunk);
-      });
+    request.on('data', function(chunk) {
+      body.push(chunk);
+    });
 
-      request.on('end', function() {
-        // body = Buffer.concat(body).toString();
-          // at this point, `body` has the entire request body stored in it as a string
-         console.log('post/messages body', body);
-         messages.results.push(JSON.parse(body.join('')));
-       
-      });
+    request.on('end', function() {
+      messages.results.push(JSON.parse(body.join('')));   
+    });
     
-      response.end(JSON.stringify({results: messages}));
+    response.end(JSON.stringify({results: messages}));
 
-    } 
-    // else if (request.method === 'POST' && request.url === '/classes/room') {
+  } else if (request.method === 'OPTIONS') {
 
-    //   var statusCode = 201;
-    //   response.writeHead(statusCode, headers);
+    var statusCode = 200;
+    response.writeHead(statusCode, headers);
+    response.end();
 
-    //   var body = [];
-
-    //   request.on('data', function(chunk) {
-    //     body.push(chunk);
-    //   })
-
-    //   request.on('end', function() {
-    //     body = Buffer.concat(body).toString();
-    //     console.log('post/classes body', body);
-    //     messages.results.push(JSON.parse(body));
-    //   });
-
-    //   response.end(JSON.stringify({results: messages}));
-    // } 
-    else if (request.method === 'OPTIONS') {
-
-      var statusCode = 200;
-      response.writeHead(statusCode, headers);
-      response.end();
-
-    } else {
-      response.writeHead(404, headers);
-      response.end();
-    }  // End of post request
+  } else {
+    
+    response.writeHead(404, headers);
+    response.end();
+  }  // End of post request
 };
 
 

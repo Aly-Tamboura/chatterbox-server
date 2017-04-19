@@ -10,6 +10,33 @@ var waitForThen = function (test, cb) {
   }, 5);
 };
 
+describe('should have a local object to store messages', function() {
+  it('should have an object ', function() {
+    expect(handler.messages).to.exist;
+    expect(handler.messages).to.be.an('object');
+    expect(handler.messages).to.have.property('results');
+    expect(handler.messages.results).to.be.instanceof(Array);
+ })
+});
+  describe('should have persistence in storing messages', function() {
+    it('messages created in one session should exist in another', function() {
+    var stubMsg = {
+      username: 'Jono',
+      message: 'Do my bidding!'
+    };
+    var req = new stubs.request('/classes/messages', 'POST', stubMsg);
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    expect(handler.messages.results).to.have.lengthOf(1);
+    // Testing for a newline isn't a valid test
+    // TODO: Replace with with a valid test
+    // expect(res._data).to.equal(JSON.stringify('\n'));
+    expect(res._ended).to.equal(true);
+
+   })
+  });
 describe('Node Server Request Listener Function', function() {
   it('Should answer GET requests for /classes/messages with a 200 status code', function() {
     // This is a fake server request. Normally, the server would provide this,
@@ -22,6 +49,7 @@ describe('Node Server Request Listener Function', function() {
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
   });
+
 
   it('Should send back parsable stringified JSON', function() {
     var req = new stubs.request('/classes/messages', 'GET');

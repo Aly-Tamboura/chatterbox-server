@@ -14,6 +14,10 @@ this file and include it in basic-server.js so that it actually works.
 var messages = {
   results: [],
 };
+const fs = require('fs');
+var path = require('path');
+// var html = fs.readFileSync('client/index.html');
+
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
 // This code allows this server to talk to websites that
@@ -49,6 +53,32 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
+
+  // if ( request.method === 'GET' && request.url === '/') {
+  //   // First I want to read the file
+  //   var getFile = function(callback) {
+  //   var content;
+  //     fs.readFile('client/index.html', 'utf8', function read(err, data) {
+  //         if (err) {
+  //             throw err;
+  //         }
+  //         content = data;
+  //         callback(null, content)
+
+  //     });  
+  //   }
+  //   response.end()
+
+  //   getFile(function(err, data) { 
+  //     console.log(data)
+  //     //   console.log("" + content);
+  //    response.writeHeader(200, {"Content-Type": "text/html"});  
+  //     response.write(data, function(err) {
+  //     });
+  //   })
+
+  // }
+
   
   if (request.method === 'GET' && request.url === '/classes/messages') {
 
@@ -75,8 +105,8 @@ var requestHandler = function(request, response) {
     //
     // Calling .end "flushes" the response's internal buffer, forcing
     // node to actually send all the data over to the client.
-
     response.end(JSON.stringify(messages));
+
   } else if (request.method === 'POST' && request.url === '/classes/messages') {
       
     var headers = defaultCorsHeaders;
@@ -104,14 +134,15 @@ var requestHandler = function(request, response) {
   } else {
     
     response.writeHead(404, headers);
+
     response.end();
   }  // End of post request
 };
 
 
 module.exports = {
-  requestHandler: requestHandler, 
-
+  requestHandler: requestHandler,
+  messages: messages, 
 };
 
 
